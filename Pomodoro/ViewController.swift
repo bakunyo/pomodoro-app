@@ -16,7 +16,6 @@ class ViewController: UIViewController {
     var count = 60 * 25
     var timerRunning = false
     var timer = Timer()
-    private var myButton: UIButton!
     
     func update() {
         count -= 1
@@ -27,7 +26,7 @@ class ViewController: UIViewController {
             stop()
         }
     }
-    
+
     @IBAction func calcCount() {
         var m = Int(minutes.text!)
         var s = Int(seconds.text!)
@@ -36,14 +35,14 @@ class ViewController: UIViewController {
         count = m! * 60 + s!
         updateLabel()
     }
-    
+
     func updateLabel() {
         let m = count / 60
         let s = count % 60
         minutes.text = String(format: "%02d", m)
         seconds.text = String(format: "%02d", s)
     }
-    
+
     @IBOutlet weak var minutes: UITextField!
     @IBOutlet weak var seconds: UITextField!
     
@@ -90,8 +89,8 @@ class ViewController: UIViewController {
     }
     
     func createTimerButton (
-        title: String,
-        xGrid: CGFloat
+            title: String,
+            xGrid: CGFloat
         ) -> UIButton {
         let bWidth: CGFloat = 80
         let bHeight: CGFloat = 30
@@ -117,10 +116,67 @@ class ViewController: UIViewController {
         self.view.addSubview(resetButton)
     }
     
+    func createTimerTextField (
+            title: String,
+            xGrid: CGFloat
+        ) -> UITextField {
+        let tWidth: CGFloat = 60
+        let tHeight: CGFloat = 30
+        let posX: CGFloat = self.view.frame.width/7 * xGrid - tWidth/2
+        let posY: CGFloat = self.view.frame.height/3 - tHeight/2
+
+        let textField = UITextField(frame: CGRect(x: posX, y: posY, width: tWidth, height: tHeight))
+        textField.text = title
+        textField.keyboardType = UIKeyboardType.numberPad
+        textField.clearButtonMode = UITextFieldViewMode.whileEditing
+        return textField
+    }
+
+    func initTimerTextFields() {
+        minutes = createTimerTextField(title: "25", xGrid: 2)
+        self.view.addSubview(minutes)
+
+        seconds = createTimerTextField(title: "00", xGrid: 5)
+        self.view.addSubview(seconds)
+    }
+
+    func createTimerLabel(
+        title: String,
+        xGrid: CGFloat
+        ) -> UILabel {
+        let tWidth: CGFloat = 30
+        let tHeight: CGFloat = 30
+        let posX: CGFloat = self.view.frame.width/7 * xGrid - tWidth/2
+        let posY: CGFloat = self.view.frame.height/3 - tHeight/2
+
+        let label = UILabel(frame: CGRect(x: posX, y: posY, width: tWidth, height: tHeight))
+        label.text = title
+        return label
+    }
+
+    func initTimerLabels() {
+        let m = createTimerLabel(title: "m", xGrid: 3)
+        self.view.addSubview(m)
+
+        let s = createTimerLabel(title: "s", xGrid: 6)
+        self.view.addSubview(s)
+    }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if(minutes.isFirstResponder){
+            minutes.resignFirstResponder()
+        }
+        if(seconds.isFirstResponder){
+            seconds.resignFirstResponder()
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         initTimerButtons()
-        
+        initTimerTextFields()
+        initTimerLabels()
+
         // Do any additional setup after loading the view, typically from a nib.
     }
     
