@@ -9,20 +9,23 @@
 import UIKit
 import AudioToolbox
 import MaterialKit
+import Alamofire
 
 class ViewController: UIViewController {
-    
+
     var defaultCount = 60 * 25
     var count = 60 * 25
     var timerRunning = false
     var timer = Timer()
-    
+    let slackUrl = "https://hooks.slack.com/services/XXXX"
+
     func update() {
         count -= 1
         updateLabel()
         if count == 0 {
             let soundIdRing:SystemSoundID = 1000  // new-mail.caf
             AudioServicesPlaySystemSound(soundIdRing)
+            postToSlack(message: "Finish Task!")
             stop()
         }
     }
@@ -50,6 +53,15 @@ class ViewController: UIViewController {
         if timerRunning { return }
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         timerRunning = true
+    }
+
+    func postToSlack(message: String) {
+        let payload = "{\"text\": \"\(message)\"}"
+        Alamofire.request(slackUrl, method: .post, parameters: ["payload": payload]).responseJSON { response in
+            if response.result.isSuccess {
+            }else{
+            }
+        }
     }
     
     @IBAction func stopButton(_ sender: UIButton) {
