@@ -1,7 +1,9 @@
 PODS:
+  - Alamofire (4.2.0)
   - MaterialKit (0.4)
 
 DEPENDENCIES:
+  - Alamofire (~> 4.0)
   - MaterialKit (from `https://github.com/faresbh/MaterialKit`, branch `swift3`)
 
 EXTERNAL SOURCES:
@@ -15,8 +17,9 @@ CHECKOUT OPTIONS:
     :git: https://github.com/faresbh/MaterialKit
 
 SPEC CHECKSUMS:
+  Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
   MaterialKit: 2e5267bcf410b82793f2b92d2111f8ae4ed2c3f2
 
-PODFILE CHECKSUM: 4008600068a22ebad44f6374a002dfccd9247f02
+PODFILE CHECKSUM: 5b2784b13be2667a26e7dbb85ccf3fd16f923261
 
 COCOAPODS: 1.1.1

@@ -7,6 +7,7 @@ target 'Pomodoro' do
 
   # Pods for Pomodoro
   pod 'MaterialKit', :git => 'https://github.com/faresbh/MaterialKit', :branch => 'swift3'
+  pod 'Alamofire', '~> 4.0'
 
   target 'PomodoroTests' do
     inherit! :search_paths
