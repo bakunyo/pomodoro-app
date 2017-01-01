@@ -146,9 +146,11 @@ class ViewController: UIViewController {
 
     func initTimerTextFields() {
         minutes = createTimerTextField(title: "25", xGrid: 2)
+        minutes.addTarget(self, action: #selector(self.calcCount), for: .editingDidEnd)
         self.view.addSubview(minutes)
 
         seconds = createTimerTextField(title: "00", xGrid: 5)
+        seconds.addTarget(self, action: #selector(self.calcCount), for: .editingDidEnd)
         self.view.addSubview(seconds)
     }
 
