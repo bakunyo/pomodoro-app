@@ -25,7 +25,13 @@ class ViewController: UIViewController {
         if count == 0 {
             let soundIdRing:SystemSoundID = 1000  // new-mail.caf
             AudioServicesPlaySystemSound(soundIdRing)
-            postToSlack(message: "Finish Task!")
+            let taskTitle = taskName.text!
+            if taskTitle == "" {
+                postToSlack(message: "Finish Pomodoro!")
+            } else {
+                postToSlack(message: "Finish Pomodoro: \(taskTitle)")
+            }
+
             stop()
         }
     }
@@ -48,6 +54,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var minutes: UITextField!
     @IBOutlet weak var seconds: UITextField!
+    @IBOutlet weak var taskName: UITextField!
     
     @IBAction func start(_ sender: UIButton) {
         if timerRunning { return }
@@ -154,6 +161,19 @@ class ViewController: UIViewController {
         self.view.addSubview(seconds)
     }
 
+    func initTaskTextField() {
+        let tWidth: CGFloat = 300
+        let tHeight: CGFloat = 30
+        let posX: CGFloat = self.view.frame.width/2 - tWidth/2
+        let posY: CGFloat = self.view.frame.height/2 - tHeight/2
+
+        taskName = UITextField(frame: CGRect(x: posX, y: posY, width: tWidth, height: tHeight))
+        taskName.placeholder = "Input Your Task"
+        taskName.clearButtonMode = UITextFieldViewMode.always
+
+        self.view.addSubview(taskName)
+    }
+
     func createTimerLabel(
         title: String,
         xGrid: CGFloat
@@ -183,6 +203,9 @@ class ViewController: UIViewController {
         if(seconds.isFirstResponder){
             seconds.resignFirstResponder()
         }
+        if(taskName.isFirstResponder){
+            taskName.resignFirstResponder()
+        }
     }
 
     override func viewDidLoad() {
@@ -190,6 +213,7 @@ class ViewController: UIViewController {
         initTimerButtons()
         initTimerTextFields()
         initTimerLabels()
+        initTaskTextField()
 
         // Do any additional setup after loading the view, typically from a nib.
     }
